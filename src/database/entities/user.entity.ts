@@ -1,7 +1,7 @@
 import { Entity, Unique, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
 import * as bcrypt  from 'bcrypt';
 
-import { UserRole } from "src/util/user-roles";
+import { UserRole } from "../../util/user-roles";
 import { Game } from "./game.entity";
 
 
@@ -32,7 +32,7 @@ export class User {
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: string;
 
-  @ManyToMany(() => Game, (game) => game.users, { cascade: true })
+  @ManyToMany(type => Game, (game: Game) => game.users, { cascade: true })
   @JoinTable()
   games: Game[];
 
@@ -46,5 +46,9 @@ export class User {
 
   private async hashPassword(password: string): Promise<void> {
     this.password = await bcrypt.hash(password, 10);
+  }
+
+  public async passwordsMatch(provided: string) {
+    return await bcrypt.compare(provided, this.password)
   }
 }

@@ -1,12 +1,11 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
-import { RegisterUserDto } from "src/auth/presentation/dto/registerUser.dto";
+import { LoginUserDto } from "src/auth/presentation/dto/loginUser.dto";
 
-export const NewUser = createParamDecorator(
-    (data: unknown, ctx: ExecutionContext): RegisterUserDto => {
+export const RegisteredUser = createParamDecorator(
+    (data: unknown, ctx: ExecutionContext): LoginUserDto => {
         const request = ctx.switchToHttp().getRequest();
         return {
-            name: request.body.name,
             email: request.body.email,
             password: request.body.password,
         }

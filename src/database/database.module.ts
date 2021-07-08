@@ -4,8 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Game } from './entities/game.entity';
 import { User } from './entities/user.entity';
-import { GameRepository } from './repository/game.repository';
-import { UserRepository } from './repository/user.repository';
 
 @Global()
 @Module({
@@ -19,10 +17,10 @@ import { UserRepository } from './repository/user.repository';
             password: process.env.MYSQL_PASSWORD,
             database: process.env.MYSQL_DB,
             entities: [User, Game],
+            
             synchronize: true,
-        })
-    ],
-    exports: [TypeOrmModule.forFeature([User, Game, UserRepository, GameRepository])],
-    providers: [UserRepository, GameRepository]
+        }),
+        TypeOrmModule.forFeature([User, Game])
+    ]
 })
 export class DatabaseModule {}

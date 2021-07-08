@@ -16,7 +16,7 @@ export class Game {
   @Column({ type: 'date', nullable: true })
   release: Date;
 
-  @ManyToMany(() => User, (user) => user.games)
+  @ManyToMany(type => User, (user: User) => user.games)
   users: User[];
 
   public constructor(id: number, name?: string, release?: number, rating?: number) {
